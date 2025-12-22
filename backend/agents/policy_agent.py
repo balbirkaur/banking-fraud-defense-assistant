@@ -1,37 +1,29 @@
 from agents.base_agent import BaseAgent
 
+class PolicyAgent(BaseAgent):
 
-class SecurityAgent(BaseAgent):
+    def analyze_policy(self, query: str):
+        docs = self.retriever.invoke(query)
+        context = "\n\n".join([d.page_content for d in docs])
 
-    def analyze_security(self, query: str, policy_context: str):
         prompt = f"""
-You are ABC Bank Senior Security & Privacy Compliance Officer.
+You are a Senior Banking Policy Intelligence Officer for ABC Bank.
 
-Using ONLY the below official bank security policy, evaluate the query.
-
-SECURITY POLICY:
-{policy_context}
-
-USER QUERY:
-{query}
+POLICY DATA:
+{context}
 
 Rules:
-- Do NOT hallucinate
-- Only use information in policy context
-- Be strict
-- Return ONLY JSON. No extra text.
+- Do not assume
+- Use ONLY above policy text
+- No hallucination
 
-Return JSON in this format:
-
+Return ONLY JSON:
 {{
- "security_summary": "",
- "sensitive_data_detected": [],
- "required_security_controls": [],
- "violations_detected": [],
- "allowed_or_denied": "ALLOW | DENY | REVIEW_REQUIRED",
- "risk_level": "LOW | MEDIUM | HIGH",
- "reference_source": "ABC BANK SECURITY & PRIVACY RULES"
+ "policy_summary": "",
+ "required_conditions": [],
+ "restricted_actions": [],
+ "risk_level": "",
+ "reference_source": ""
 }}
 """
-
         return self.run_llm(prompt)
