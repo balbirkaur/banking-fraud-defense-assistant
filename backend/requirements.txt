@@ -1,0 +1,16 @@
+langgraph
+langchain
+langchain-core
+langchain-community
+jsonpatch
+chromadb
+pydantic
+tqdm
+numpy
+
+# LLM Providers (optional but recommended)
+langchain-openai
+openai
+
+# Environment variables
+python-dotenv

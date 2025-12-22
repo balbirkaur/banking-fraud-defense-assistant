@@ -1,0 +1,5 @@
+ABC BANK REGULATORY & POLICY REFERENCE
+--------------------------------
+All banking operations must comply with banking regulators and legal standards.
+Fraud prevention, AML guidelines, and customer protection policies apply.
+Non-compliance cases should be escalated for manual review and governance approval.

@@ -1,0 +1,5 @@
+ABC BANK SECURITY & PRIVACY RULES
+--------------------------------
+Customer personally identifiable information (PII) must never be exposed publicly.
+Sensitive data should remain within secured, governed, and authorized environments only.
+Access should be role-based and security best practices must be followed at all times.

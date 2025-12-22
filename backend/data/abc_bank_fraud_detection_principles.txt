@@ -1,0 +1,5 @@
+ABC BANK FRAUD DETECTION PRINCIPLES
+--------------------------------
+ABC Bank must ensure secure and trusted financial transactions.
+Systems should analyze unusual behavior, anomalies, and fraud indicators.
+Any high-risk activity should be reviewed or verified using additional authentication.

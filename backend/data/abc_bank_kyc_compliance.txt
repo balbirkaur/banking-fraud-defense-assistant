@@ -1,0 +1,5 @@
+ABC BANK KYC COMPLIANCE
+--------------------------------
+KYC compliance is mandatory for every customer onboarding.
+Customer identity must be verified using approved government identity documents.
+Any suspicious or inconsistent identity information must be flagged immediately.

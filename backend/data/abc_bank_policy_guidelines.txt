@@ -1,0 +1,6 @@
+ABC BANK POLICY GUIDELINES
+--------------------------------
+This document defines the standard operating banking policies of ABC Bank.
+- All policies must comply with financial regulatory authorities.
+- Customer protection, transparency, and responsible banking are mandatory.
+- AI and automated decision systems must remain compliant and explainable.

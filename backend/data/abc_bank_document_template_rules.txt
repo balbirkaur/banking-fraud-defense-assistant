@@ -1,0 +1,5 @@
+ABC BANK DOCUMENT TEMPLATE VALIDATION RULES
+--------------------------------
+All customer-submitted forms must follow ABC Bank–approved templates.
+Mandatory fields must not be missing.
+Incorrect formatting, tampering, or fake detected information must be flagged.
