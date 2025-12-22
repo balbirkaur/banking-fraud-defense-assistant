@@ -1,18 +1,7 @@
-import os
-from dotenv import load_dotenv
-from utils.json_utils import safe_json_parse
-from langchain_openai import AzureChatOpenAI
-
-load_dotenv()
+from agents.base_agent import BaseAgent
 
 
-class DocumentAgent:
-
-    def __init__(self):
-        self.llm = AzureChatOpenAI(
-            azure_deployment=os.getenv("AZURE_OPENAI_DEPLOYMENT"),
-            api_version=os.getenv("AZURE_OPENAI_API_VERSION")
-        )
+class DocumentAgent(BaseAgent):
 
     def analyze_document(self, document_text: str):
         """
@@ -38,7 +27,7 @@ Rules:
 - Identify potential fraud or suspicious indicators
 - Respond ONLY based on document content
 
-Return STRICT VALID JSON:
+Return STRICT VALID JSON ONLY:
 
 {{
  "document_summary": "Professional explanation of what this document represents",
@@ -66,7 +55,5 @@ Return STRICT VALID JSON:
 }}
 """
 
-        response = self.llm.invoke(prompt)
-
-        # Use GLOBAL enterprise JSON handler
-        return safe_json_parse(response.content)
+        # Use common execution template from BaseAgent
+        return self.run_llm(prompt)

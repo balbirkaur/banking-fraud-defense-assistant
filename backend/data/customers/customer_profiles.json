@@ -1,0 +1,43 @@
+{
+    "customers": [
+        {
+            "customer_id": "CUS-001",
+            "name": "John Miller",
+            "dob": "1991-02-21",
+            "address": "45 North Street, New York, USA",
+            "country": "USA",
+            "document_type": "Passport",
+            "document_number": "XH2737389",
+            "phone": "+1-889-223-7788",
+            "email": "john.miller@example.com",
+            "account_type": "Savings",
+            "risk_category": "Medium"
+        },
+        {
+            "customer_id": "CUS-002",
+            "name": "Sophia Johnson",
+            "dob": "1988-10-14",
+            "address": "California, USA",
+            "country": "USA",
+            "document_type": "Driver License",
+            "document_number": "DL-9827723",
+            "phone": "+1-778-231-8899",
+            "email": "sophia.johnson@example.com",
+            "account_type": "Current",
+            "risk_category": "Low"
+        },
+        {
+            "customer_id": "CUS-003",
+            "name": "David Brown",
+            "dob": "1995-06-03",
+            "address": "",
+            "country": "USA",
+            "document_type": "National ID",
+            "document_number": "ID-5567892",
+            "phone": "+1-667-123-9900",
+            "email": "david.brown@example.com",
+            "account_type": "Savings",
+            "risk_category": "High"
+        }
+    ]
+}

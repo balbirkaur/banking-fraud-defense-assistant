@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from langchain_openai import AzureChatOpenAI
-from utils.json_utils import safe_json_parse
+from agents.utils.json_utils import safe_json_parse
 
 load_dotenv()
 
