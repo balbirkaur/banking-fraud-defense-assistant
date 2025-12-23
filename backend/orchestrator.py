@@ -9,6 +9,7 @@ from agents.sso_agent import SSOAgent
 from agents.fraud_agent import FraudAgent
 from agents.transaction_agent import TransactionMonitoringAgent
 from agents.decision_agent import DecisionAgent
+from agents.audit_agent import AuditAgent
 
 
 # ---------------------------
@@ -35,6 +36,8 @@ sso_agent = SSOAgent(retriever)
 fraud_agent = FraudAgent(retriever)
 transaction_agent = TransactionMonitoringAgent(retriever)
 decision_agent = DecisionAgent()
+audit_agent = AuditAgent()
+
 
 
 # ---------------------------
@@ -85,6 +88,7 @@ def run_transaction(state: BankingState):
 
 
 def run_decision(state: BankingState):
+
     result = decision_agent.final_decision(
         kyc_result=state.get("kyc_result"),
         fraud_result=state.get("fraud_result"),
@@ -95,7 +99,20 @@ def run_decision(state: BankingState):
     )
 
     state["final_decision"] = result
+
+    audit_agent.generate_audit_log(
+        user_input=state["user_input"],
+        kyc_result=state.get("kyc_result"),
+        policy_result=state.get("policy_result"),
+        security_result=state.get("security_result"),
+        sso_result=state.get("sso_result"),
+        fraud_result=state.get("fraud_result"),
+        transaction_result=state.get("transaction_result"),
+        final_decision=result
+    )
+
     return state
+
 
 
 # ---------------------------

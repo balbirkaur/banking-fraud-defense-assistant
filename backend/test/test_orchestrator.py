@@ -14,7 +14,7 @@ def test_orchestrator():
     print("\n===== LANGGRAPH ORCHESTRATION TEST =====\n")
 
     state = {
-        "user_input": "Customer transferring $15,000 to new beneficiary.",
+        "user_input": "Customer is trying to transfer $15,000 to a newly added beneficiary.",
         "kyc_data": {
             "customer_name": "Rahul Sharma",
             "kyc_status": "VALID",
