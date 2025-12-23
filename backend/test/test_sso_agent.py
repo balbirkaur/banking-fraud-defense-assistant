@@ -15,10 +15,16 @@ def test_sso_agent():
     print("\n===== SSO AGENT TEST =====\n")
 
     retriever = init_retriever()
-    agent = SSOAgent(retriever)
+
+    # shared short-term memory
+    memory_store = []
+    memory_store.append("Security baseline: STRICT")
+
+    agent = SSOAgent(retriever, memory_store)
 
     scenario = """
-    Employee is accessing internal transaction approval dashboard from remote laptop.
+    Employee is accessing internal transaction approval dashboard
+    from a remote personal laptop.
     This system allows approving high value corporate banking transactions.
     """
 

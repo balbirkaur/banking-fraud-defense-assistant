@@ -17,14 +17,16 @@ def test_document_agent():
     # sample customer document text
     sample_document = """
     Document Type: Government ID
-    Customer Name: Rahul Sharma
+    Customer Name: Balbir Kaur
     DOB: 21-08-1990
     Address: 22B MG Road, Bangalore
     ID Number: IND-9988234
     Notes: Customer onboarding KYC document
     """
 
+    # memory not mandatory for DocumentAgent currently
     agent = DocumentAgent()
+
     result = agent.analyze_document(sample_document)
 
     print("\n===== DOCUMENT AGENT OUTPUT =====\n")

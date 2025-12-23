@@ -14,7 +14,12 @@ def test_transaction_agent():
     print("\n===== TRANSACTION MONITORING TEST =====\n")
 
     retriever = init_retriever()
-    agent = TransactionMonitoringAgent(retriever)
+
+    # shared short-term memory
+    memory_store = []
+    memory_store.append("Previous fraud level: LOW")
+
+    agent = TransactionMonitoringAgent(retriever, memory_store)
 
     transactions = [
         {"amount": 12000, "type": "TRANSFER", "recipient": "NEW_BENEFICIARY"},

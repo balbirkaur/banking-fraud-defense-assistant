@@ -15,7 +15,12 @@ def test_fraud_agent():
     print("\n===== FRAUD AGENT TEST =====\n")
 
     retriever = init_retriever()
-    agent = FraudAgent(retriever)
+
+    # shared memory store
+    memory_store = []
+    memory_store.append("Policy Risk: LOW")
+
+    agent = FraudAgent(retriever, memory_store)
 
     scenario = """
     Customer is trying to transfer $15,000 to a newly added beneficiary

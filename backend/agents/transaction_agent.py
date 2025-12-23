@@ -3,9 +3,9 @@ from agents.base_agent import BaseAgent
 
 class TransactionMonitoringAgent(BaseAgent):
 
-    def __init__(self, retriever):
-        super().__init__()
-        self.retriever = retriever
+    def __init__(self, retriever=None, memory=None):
+        super().__init__(retriever)
+        self.memory = memory if memory else []
 
     def monitor_transactions(self, transactions: list):
         """

@@ -16,10 +16,11 @@ def test_orchestrator():
     state = {
         "user_input": "Customer is trying to transfer $15,000 to a newly added beneficiary.",
         "kyc_data": {
-            "customer_name": "Rahul Sharma",
+            "customer_name": "Balbir Kaur",
             "kyc_status": "VALID",
             "nationality": "Indian"
-        }
+        },
+        "memory": []          # <<< REQUIRED FOR SHORT-TERM MEMORY
     }
 
     result = app.invoke(state)

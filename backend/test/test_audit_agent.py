@@ -13,11 +13,15 @@ def test_audit_agent():
 
     print("\n===== AUDIT AGENT TEST =====\n")
 
-    agent = AuditAgent()
+    # short term memory list
+    memory_store = []
+    memory_store.append("Policy Risk: LOW")
+    memory_store.append("Fraud Risk: MEDIUM")
+
+    agent = AuditAgent(memory_store)
 
     user_input = "Customer transferring $15,000 to a new beneficiary."
 
-    # Dummy sample results simulating other agents
     policy_result = {"risk_level": "LOW"}
     kyc_result = {"compliance_status": "PASS"}
     security_result = {"allowed_or_denied": "ALLOW"}
@@ -45,7 +49,6 @@ def test_audit_agent():
     print("===== GENERATED AUDIT RECORD =====\n")
     print(json.dumps(result, indent=4))
 
-    # Validate file exists
     log_path = os.path.join(ROOT, "logs", "audit_logs.jsonl")
 
     if os.path.exists(log_path):

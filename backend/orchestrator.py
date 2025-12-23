@@ -1,7 +1,8 @@
 from langgraph.graph import StateGraph, START, END
-from typing import TypedDict, Optional
+from typing import TypedDict, Optional, List
 
 from retriever import init_retriever
+
 from agents.policy_agent import PolicyAgent
 from agents.kyc_agent import KYCAgent
 from agents.security_agent import SecurityAgent
@@ -13,8 +14,10 @@ from agents.audit_agent import AuditAgent
 
 
 # ---------------------------
-# Graph State
+# Graph State + Short Term Memory
 # ---------------------------
+
+    
 class BankingState(TypedDict, total=False):
     user_input: str
     kyc_data: Optional[dict]
@@ -25,18 +28,25 @@ class BankingState(TypedDict, total=False):
     fraud_result: Optional[dict]
     transaction_result: Optional[dict]
     final_decision: Optional[dict]
+    memory: list
 
 
+
+# ---------------------------
+# Initialize Components
+# ---------------------------
 retriever = init_retriever()
 
-policy_agent = PolicyAgent(retriever)
-kyc_agent = KYCAgent(retriever)
-security_agent = SecurityAgent(retriever)
-sso_agent = SSOAgent(retriever)
-fraud_agent = FraudAgent(retriever)
-transaction_agent = TransactionMonitoringAgent(retriever)
-decision_agent = DecisionAgent()
-audit_agent = AuditAgent()
+memory_store = []
+
+policy_agent = PolicyAgent(retriever, memory_store)
+kyc_agent = KYCAgent(retriever, memory_store)
+security_agent = SecurityAgent(retriever, memory_store)
+sso_agent = SSOAgent(retriever, memory_store)
+fraud_agent = FraudAgent(retriever, memory_store)
+transaction_agent = TransactionMonitoringAgent(retriever, memory_store)
+decision_agent = DecisionAgent(memory_store)
+audit_agent = AuditAgent(memory_store)
 
 
 
@@ -46,34 +56,48 @@ audit_agent = AuditAgent()
 def run_policy(state: BankingState):
     result = policy_agent.analyze_policy(state["user_input"])
     state["policy_result"] = result
+
+    state["memory"].append(f"Policy Risk: {result.get('risk_level', 'UNKNOWN')}")
     return state
 
 
 def run_kyc(state: BankingState):
     result = kyc_agent.evaluate_kyc(state["kyc_data"])
     state["kyc_result"] = result
+
+    state["memory"].append(
+        f"KYC Compliance: {result.get('compliance_status', 'UNKNOWN')}"
+    )
     return state
 
 
 def run_security(state: BankingState):
-    result = security_agent.evaluate_security(
-        state["user_input"]
-    )
-
+    result = security_agent.evaluate_security(state["user_input"])
     state["security_result"] = result
-    return state
 
+    state["memory"].append(
+        f"Security Decision: {result.get('allowed_or_denied', 'UNKNOWN')}"
+    )
+    return state
 
 
 def run_sso(state: BankingState):
     result = sso_agent.evaluate_sso(state["user_input"])
     state["sso_result"] = result
+
+    state["memory"].append(
+        f"SSO: {result.get('allowed_or_denied', 'UNKNOWN')}"
+    )
     return state
 
 
 def run_fraud(state: BankingState):
     result = fraud_agent.evaluate_fraud(state["user_input"])
     state["fraud_result"] = result
+
+    state["memory"].append(
+        f"Fraud Risk: {result.get('risk_level', 'UNKNOWN')}"
+    )
     return state
 
 
@@ -82,8 +106,13 @@ def run_transaction(state: BankingState):
         {"amount": 12000, "type": "TRANSFER"},
         {"amount": 9000, "type": "TRANSFER"}
     ]
+
     result = transaction_agent.monitor_transactions(transactions)
     state["transaction_result"] = result
+
+    state["memory"].append(
+        f"Transaction Alert: {result.get('alert_required', 'UNKNOWN')}"
+    )
     return state
 
 
@@ -96,6 +125,7 @@ def run_decision(state: BankingState):
         sso_result=state.get("sso_result"),
         transaction_result=state.get("transaction_result"),
         policy_result=state.get("policy_result"),
+        memory=state.get("memory", [])
     )
 
     state["final_decision"] = result
@@ -112,7 +142,6 @@ def run_decision(state: BankingState):
     )
 
     return state
-
 
 
 # ---------------------------

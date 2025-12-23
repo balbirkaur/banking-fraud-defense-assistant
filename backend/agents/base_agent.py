@@ -8,8 +8,9 @@ load_dotenv()
 
 class BaseAgent:
 
-    def __init__(self, retriever=None):
+    def __init__(self, retriever=None, memory=None):
         self.retriever = retriever
+        self.memory = memory if memory is not None else []
 
         # Enable streaming capability
         self.llm = AzureChatOpenAI(
@@ -27,6 +28,10 @@ class BaseAgent:
         """
         response = self.llm.invoke(prompt)
         return safe_json_parse(response.content)
+    
+    def remember(self, entry: str):
+        """Short term memory append"""
+        self.memory.append(entry)
 
     def stream_llm(self, prompt: str):
         """

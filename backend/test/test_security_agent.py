@@ -14,7 +14,12 @@ def test_security_agent():
     print("\n===== SECURITY AGENT TEST =====\n")
 
     retriever = init_retriever()
-    agent = SecurityAgent(retriever)
+
+    # shared short-term memory
+    memory_store = []
+    memory_store.append("Policy Risk: LOW")
+
+    agent = SecurityAgent(retriever, memory_store)
 
     query = "Can we share customer KYC PDF document over email to third party vendor?"
 

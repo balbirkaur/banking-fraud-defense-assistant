@@ -3,20 +3,21 @@ from agents.base_agent import BaseAgent
 
 class DecisionAgent(BaseAgent):
 
-    def final_decision(
-        self,
-        kyc_result=None,
-        fraud_result=None,
-        security_result=None,
-        sso_result=None,
-        transaction_result=None,
-        policy_result=None
-    ):
+   def final_decision(
+    self,
+    kyc_result=None,
+    fraud_result=None,
+    security_result=None,
+    sso_result=None,
+    transaction_result=None,
+    policy_result=None,
+    memory=None
+):
         """
         Combines outputs from multiple agents and decides
         whether banking operation should be ALLOWED / BLOCKED / REVIEW_REQUIRED
         """
-
+        memory = memory or []
         decision_reasons = []
         final_status = "ALLOW"
         final_risk = "LOW"

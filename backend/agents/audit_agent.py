@@ -6,8 +6,9 @@ from agents.base_agent import BaseAgent
 
 class AuditAgent(BaseAgent):
 
-    def __init__(self):
+    def __init__(self, memory=None):
         super().__init__()
+        self.memory = memory if memory else []
         self.log_dir = "logs"
         self.log_file = os.path.join(self.log_dir, "audit_logs.jsonl")
 

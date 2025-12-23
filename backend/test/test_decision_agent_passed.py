@@ -12,7 +12,12 @@ from agents.decision_agent import DecisionAgent
 def test_decision_agent_pass():
     print("\n===== DECISION ENGINE TEST (PASS CASE) =====\n")
 
-    agent = DecisionAgent()
+    # short-term memory store
+    memory_store = []
+    memory_store.append("Policy Risk: LOW")
+    memory_store.append("Fraud Risk: LOW")
+
+    agent = DecisionAgent(memory_store)
 
     # Simulated successful outputs from agents
     kyc = {"compliance_status": "PASS"}
@@ -31,6 +36,7 @@ def test_decision_agent_pass():
         policy_result=policy
     )
 
+    print("\n===== FINAL PASS DECISION OUTPUT =====\n")
     print(json.dumps(result, indent=4))
 
 

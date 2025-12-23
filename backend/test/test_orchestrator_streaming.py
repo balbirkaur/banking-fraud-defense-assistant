@@ -16,7 +16,7 @@ def test_orchestrator_streaming():
     state = {
         "user_input": "Customer tries to transfer $15,000 to a new beneficiary.",
         "kyc_data": {
-            "customer_name": "Rahul Sharma",
+            "customer_name": "Balbir Kaur",
             "kyc_status": "VALID",
             "nationality": "Indian"
         }

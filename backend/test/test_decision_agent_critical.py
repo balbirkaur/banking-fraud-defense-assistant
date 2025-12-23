@@ -9,14 +9,19 @@ sys.path.append(ROOT)
 from agents.decision_agent import DecisionAgent
 
 
-def test_decision_agent():
-    print("\n===== DECISION ENGINE TEST =====\n")
+def test_decision_agent_critical():
+    print("\n===== DECISION ENGINE CRITICAL TEST =====\n")
 
-    agent = DecisionAgent()
+    # Not mandatory, but keeping consistent with project structure
+    memory_store = []
+    memory_store.append("Policy Risk: MEDIUM")
+    memory_store.append("Fraud Risk: HIGH")
 
-    # simulate outputs from other agents
+    agent = DecisionAgent(memory_store)
+
+    # Simulating severe risk scenario
     kyc = {"compliance_status": "PASS"}
-    fraud = {"risk_level": "HIGH"}
+    fraud = {"risk_level": "HIGH"}     # <-- CRITICAL TRIGGER
     security = {"allowed_or_denied": "ALLOW"}
     sso = {"allowed_or_denied": "ALLOW"}
     transaction = {"alert_required": "NO"}
@@ -31,9 +36,9 @@ def test_decision_agent():
         policy_result=policy
     )
 
-    print("\n===== FINAL DECISION OUTPUT =====\n")
+    print("\n===== FINAL CRITICAL DECISION OUTPUT =====\n")
     print(json.dumps(result, indent=4))
 
 
 if __name__ == "__main__":
-    test_decision_agent()
+    test_decision_agent_critical()
