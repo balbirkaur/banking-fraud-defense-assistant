@@ -2,55 +2,64 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, Dict, Any
+from fastapi import HTTPException
 
-from orchestrator import app as graph_app   # your LangGraph compiled app
+from orchestrator import app as graph_app
+from agents.utils.customer_lookup import search_customers
 
 
-# ----------------------------
-# FastAPI App
-# ----------------------------
 api = FastAPI(
-    title="ABC Bank AI Risk & Compliance Orchestrator",
+    title="ABC Bank AI Risk Orchestrator",
     description="Multi-Agent Banking Compliance Engine",
     version="1.0"
 )
 
 
-# ----------------------------
-# CORS (Allow frontend)
-# ----------------------------
 api.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],        # for demo; later restrict domain
+    allow_origins=["*"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 
-# ----------------------------
-# Request Model
-# ----------------------------
 class OrchestratorRequest(BaseModel):
     user_input: str
     kyc_data: Optional[Dict[str, Any]] = None
     memory: Optional[list] = []
 
 
-# ----------------------------
-# Health Check
-# ----------------------------
 @api.get("/")
 def health():
-    return {"status": "OK", "message": "Banking AI Orchestrator Running"}
+    return {"status": "OK", "message": "Orchestrator Running"}
 
 
-# ----------------------------
-# MAIN PIPELINE RUNNER
-# ----------------------------
+# =======================
+#  SEARCH CUSTOMERS API
+# =======================
+@api.get("/search-customers")
+def search(query: str):
+    if len(query) < 3:
+        raise HTTPException(status_code=400, detail="Query must be at least 3 characters")
 
+    results = search_customers(query)
+
+    if not results:
+        return {"results": []}
+
+    return {"results": results}
+
+
+# =======================
+# RUN MAIN PIPELINE
+# =======================
 @api.post("/run-orchestrator")
 def run_orchestrator(request: OrchestratorRequest):
+
+    if len(request.user_input.strip()) < 5:
+        raise HTTPException(status_code=400, detail="User input too short")
+
     state = {
         "user_input": request.user_input,
         "kyc_data": request.kyc_data or {

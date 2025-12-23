@@ -1,6 +1,8 @@
 import time
 import os
 import json
+
+from numpy import record
 from agents.base_agent import BaseAgent
 
 
@@ -10,7 +12,7 @@ class AuditAgent(BaseAgent):
         super().__init__()
         self.memory = memory if memory else []
         self.log_dir = "logs"
-        self.log_file = os.path.join(self.log_dir, "audit_logs.jsonl")
+        self.log_file = os.path.join(self.log_dir, "audit_logs.json")
 
         if not os.path.exists(self.log_dir):
             os.makedirs(self.log_dir)
@@ -69,5 +71,5 @@ designed to support regulatory alignment and internal audit readiness.
 
     def _write_log(self, record):
         with open(self.log_file, "a", encoding="utf-8") as f:
-            f.write(json.dumps(record))
-            f.write("\n")
+                f.write(json.dumps(record, indent=4))
+                f.write("\n\n")

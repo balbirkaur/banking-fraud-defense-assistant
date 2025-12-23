@@ -49,7 +49,6 @@ decision_agent = DecisionAgent(memory_store)
 audit_agent = AuditAgent(memory_store)
 
 
-
 # ---------------------------
 # Workflow Steps
 # ---------------------------
@@ -82,7 +81,7 @@ def run_security(state: BankingState):
 
 
 def run_sso(state: BankingState):
-    result = sso_agent.evaluate_sso(state["user_input"])
+    result = sso_agent.evaluate_sso(state["user_input"],customer_profile=state.get("kyc_data"))
     state["sso_result"] = result
 
     state["memory"].append(
@@ -92,7 +91,11 @@ def run_sso(state: BankingState):
 
 
 def run_fraud(state: BankingState):
-    result = fraud_agent.evaluate_fraud(state["user_input"])
+    result = fraud_agent.evaluate_fraud(
+    state["user_input"],
+    customer_profile=state.get("kyc_data")
+)
+
     state["fraud_result"] = result
 
     state["memory"].append(

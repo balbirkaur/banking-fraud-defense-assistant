@@ -30,6 +30,7 @@ class DecisionAgent(BaseAgent):
                 final_status = "REVIEW_REQUIRED"
                 final_risk = "HIGH"
                 decision_reasons.append("Policy indicates high risk")
+                print("policy_result:", policy_result)
 
         # =========================
         # 2️⃣ KYC CHECK
@@ -39,6 +40,7 @@ class DecisionAgent(BaseAgent):
                 final_status = "REVIEW_REQUIRED"
                 final_risk = "HIGH"
                 decision_reasons.append("KYC not fully compliant")
+                print("kyc_result:", kyc_result)
 
         # =========================
         # 3️⃣ SECURITY CHECK
@@ -48,6 +50,7 @@ class DecisionAgent(BaseAgent):
                 final_status = "DENY"
                 final_risk = "HIGH"
                 decision_reasons.append("Security policy denied the action")
+                print("security_result:", security_result)
 
         # =========================
         # 4️⃣ SSO / AUTH CHECK
@@ -57,6 +60,7 @@ class DecisionAgent(BaseAgent):
                 final_status = "DENY"
                 final_risk = "HIGH"
                 decision_reasons.append("SSO / Authentication not compliant")
+                print("sso_result:", sso_result)
 
         # =========================
         # 5️⃣ FRAUD CHECK
@@ -66,6 +70,7 @@ class DecisionAgent(BaseAgent):
                 final_status = "BLOCK"
                 final_risk = "CRITICAL"
                 decision_reasons.append("Fraud risk detected")
+                print("fraud_result:", fraud_result)
 
         # =========================
         # 6️⃣ TRANSACTION CHECK
@@ -75,6 +80,7 @@ class DecisionAgent(BaseAgent):
                 final_status = "REVIEW_REQUIRED"
                 final_risk = "HIGH"
                 decision_reasons.append("Suspicious transaction behavior detected")
+                print("transaction_result:", transaction_result)
 
         # If no reasons added → everything good
         if not decision_reasons:

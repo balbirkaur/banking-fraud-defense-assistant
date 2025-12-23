@@ -1,6 +1,21 @@
 ABC BANK POLICY GUIDELINES
 --------------------------------
 This document defines the standard operating banking policies of ABC Bank.
+
 - All policies must comply with financial regulatory authorities.
 - Customer protection, transparency, and responsible banking are mandatory.
 - AI and automated decision systems must remain compliant and explainable.
+
+ABC Bank Policy Governing Transactions
+--------------------------------------
+- Fully KYC verified customers are normally ALLOWED.
+- Only block if fraud indicators exist.
+- Do NOT mark high risk unless real evidence exists.
+- Transactions should follow risk-based trust scoring.
+- Customer history, AML screening, and fraud profile must be considered.
+
+Special Compliance Notes:
+- Fully KYC verified customers are ALLOWED unless fraud detected.
+- If no fraud detected and no suspicious pattern, ALLOW transaction.
+- Do NOT mark risk unless evidence exists.
+

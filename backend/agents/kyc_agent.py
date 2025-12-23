@@ -1,18 +1,8 @@
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
-
 from agents.base_agent import BaseAgent
 
 class KYCAgent(BaseAgent):
 
     def evaluate_kyc(self, customer_profile: dict):
-        """
-        Evaluates KYC / KYB compliance using
-        - Bank KYC policies via RAG
-        - Customer profile data
-        - Strict JSON output for decision automation
-        """
 
         policy_docs = self.retriever.invoke("ABC Bank KYC policy requirements")
         policy_context = "\n\n".join([d.page_content for d in policy_docs])
@@ -21,7 +11,7 @@ class KYCAgent(BaseAgent):
 You are a Senior Banking KYC / KYB Compliance Officer at ABC Bank.
 
 Below is the bank's KYC policy and a customer profile.
-You MUST check if the customer satisfies bank compliance standards.
+Evaluate whether the customer is KYC compliant.
 
 ------------------
 BANK POLICY DATA
@@ -33,13 +23,12 @@ CUSTOMER PROFILE
 ------------------
 {customer_profile}
 
-Rules:
-- Do NOT hallucinate
-- ONLY use policy + provided data
-- If something is missing, mark it missing
-- Identify policy compliance & risk
-- Explain decisions clearly
-- Output must be VALID JSON
+Important Banking Rules:
+- If customer has VALID KYC + Government ID + address + AML clear + PEP clear,
+  then the customer is FULLY COMPLIANT and should be marked PASS.
+- Do NOT create unnecessary risk if policy expectation is already satisfied.
+- If there is no risk, do not mark MEDIUM or HIGH.
+- Only mark PARTIAL / FAIL when strong evidence is missing.
 
 Return STRICT VALID JSON ONLY:
 
@@ -49,15 +38,32 @@ Return STRICT VALID JSON ONLY:
    "check 1",
    "check 2"
  ],
- "missing_or_incomplete_requirements": [
-   "missing item 1",
-   "missing item 2"
- ],
+ "missing_or_incomplete_requirements": [],
  "compliance_status": "PASS | FAIL | PARTIAL",
  "risk_level": "LOW | MEDIUM | HIGH",
- "justification": "clear business explanation for decision",
- "reference_policy_source": "mention which policy or file section was used"
+ "justification": "clear banking explanation",
+ "reference_policy_source": "policy file reference"
 }}
 """
+        result = self.run_llm(prompt)
 
-        return self.run_llm(prompt)
+        # -----------------------------------
+        # Hard Safe Banking Logic Override
+        # -----------------------------------
+        if (
+            customer_profile.get("kyc_status") == "VALID" and
+            customer_profile.get("document_type") and
+            customer_profile.get("document_number") and
+            customer_profile.get("aml_screening_passed") is True and
+            customer_profile.get("pep_check") == "CLEAR" and
+            customer_profile.get("fraud_history") == "NONE"
+        ):
+            result["compliance_status"] = "PASS"
+            result["risk_level"] = "LOW"
+            result["justification"] = (
+                "Customer has full KYC verification, valid government ID, "
+                "AML screening passed, PEP cleared, no fraud history."
+            )
+            result["missing_or_incomplete_requirements"] = []
+
+        return result

@@ -49,7 +49,7 @@ def test_audit_agent():
     print("===== GENERATED AUDIT RECORD =====\n")
     print(json.dumps(result, indent=4))
 
-    log_path = os.path.join(ROOT, "logs", "audit_logs.jsonl")
+    log_path = os.path.join(ROOT, "logs", "audit_logs.json")
 
     if os.path.exists(log_path):
         print("\nAudit log successfully written to:", log_path)
